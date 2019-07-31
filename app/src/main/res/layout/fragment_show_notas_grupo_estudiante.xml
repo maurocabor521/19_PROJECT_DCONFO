@@ -51,7 +51,7 @@
             android:hint="Calificación Promedio"
             android:gravity="center"
             android:layout_weight="1"
-            android:id="@+id/txt_show_porc_nota_prom"/>
+            android:id="@+id/txt_show_porc_calif_prom"/>
     </LinearLayout>
 
     <FrameLayout

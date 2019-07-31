@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.asus.dconfo_app.R;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -21,6 +24,12 @@ public class PorcentNotasActivity extends AppCompatActivity {
     ArrayList<String> PieEntryLabels;
     PieDataSet pieDataSet;
     PieData pieData;
+
+    BarChart chart ;
+    ArrayList<BarEntry> BARENTRY ;
+    ArrayList<String> BarEntryLabels ;
+    BarDataSet Bardataset ;
+    BarData BARDATA ;
 
     int fonico;
     int lexico;
@@ -65,6 +74,26 @@ public class PorcentNotasActivity extends AppCompatActivity {
         pieChart.setData(pieData);
 
         pieChart.animateY(3000);
+        //******************************************************************************************
+        chart = (BarChart) findViewById(R.id.chart1);
+
+        BARENTRY = new ArrayList<>();
+
+        BarEntryLabels = new ArrayList<String>();
+
+        AddValuesToBARENTRY();
+
+        AddValuesToBarEntryLabels();
+
+        Bardataset = new BarDataSet(BARENTRY, "Projects");
+
+        BARDATA = new BarData(BarEntryLabels, Bardataset);
+
+        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        chart.setData(BARDATA);
+
+        chart.animateY(3000);
 
     }
 
@@ -112,6 +141,46 @@ public class PorcentNotasActivity extends AppCompatActivity {
         //getSupportActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(upButton);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    //**********************************************************************************************
+    public void AddValuesToBARENTRY(){
+
+        if ((fonico != 0) && (lexico != 0) && (silabico != 0)) {
+            BARENTRY.add(new BarEntry(fonico, 0));
+            BARENTRY.add(new BarEntry(lexico, 1));
+            BARENTRY.add(new BarEntry(silabico, 2));
+        }
+        if ((fonico != 0) && (lexico != 0) && (silabico == 0)) {
+            BARENTRY.add(new BarEntry(fonico, 0));
+            BARENTRY.add(new BarEntry(lexico, 1));
+        }
+        if ((fonico != 0) && (lexico == 0) && (silabico != 0)) {
+            BARENTRY.add(new BarEntry(fonico, 0));
+            BARENTRY.add(new BarEntry(silabico, 1));
+        }
+        if ((fonico == 0) && (lexico != 0) && (silabico != 0)) {
+            BARENTRY.add(new BarEntry(lexico, 0));
+            BARENTRY.add(new BarEntry(silabico, 1));
+        }
+        if ((fonico != 0) && (lexico == 0) && (silabico == 0)) {
+            BARENTRY.add(new BarEntry(fonico, 0));
+        }
+        if ((fonico == 0) && (lexico != 0) && (silabico == 0)) {
+            BARENTRY.add(new BarEntry(lexico, 0));
+        }
+        if ((fonico == 0) && (lexico == 0) && (silabico != 0)) {
+            BARENTRY.add(new BarEntry(silabico, 0));
+        }
+
+    }
+
+    public void AddValuesToBarEntryLabels(){
+
+        BarEntryLabels.add("Fónica");
+        BarEntryLabels.add("Léxica");
+        BarEntryLabels.add("Silábica");
+
     }
 
     //método que permite volver al padre conservando las variables

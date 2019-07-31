@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus.dconfo_app.R;
 import com.example.asus.dconfo_app.domain.model.DeberEstudiante;
+import com.example.asus.dconfo_app.domain.model.EjercicioG2;
 import com.example.asus.dconfo_app.domain.model.Estudiante;
 import com.example.asus.dconfo_app.domain.model.VolleySingleton;
 import com.example.asus.dconfo_app.helpers.Globals;
@@ -35,7 +38,9 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,8 +81,18 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
     FindNotasXGrupoEstFragment findNotasXGrupoEstFragment;
 
     ArrayList<Integer> lista_notas;
+    ArrayList<Integer> lista_idEjercicios;
+    ArrayList<Integer> lista_Calificaciones;
+    ArrayList<Integer> lista_idEstudiante;
+    ArrayList<Integer> lista_idEjercicioNRepetido;
+    ArrayList<EjercicioG2> listaEjercicios;
+
     int porcentajeHechos;
+    int califPromedio;
+    int idEjercicio;
+    int bandera = 0;
     TextView txt_porcentajeHechos;
+    TextView txt_califPromedio;
 
     private OnFragmentInteractionListener mListener;
 
@@ -119,7 +134,14 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
         View view = inflater.inflate(R.layout.fragment_show_notas_grupo_estudiante, container, false);
 
         lista_notas = new ArrayList<>();
+        lista_idEjercicios = new ArrayList<>();
+        lista_Calificaciones = new ArrayList<>();
+        lista_idEstudiante = new ArrayList<>();
+        lista_idEjercicioNRepetido = new ArrayList<>();
+        listaEjercicios = new ArrayList<>();
+
         txt_porcentajeHechos = view.findViewById(R.id.txt_show_porc_eje_hechos);
+        txt_califPromedio = view.findViewById(R.id.txt_show_porc_calif_prom);
 
         progreso = new ProgressDialog(getActivity());
         iddocente = getArguments().getInt("iddocente");
@@ -183,7 +205,7 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
             //Toast.makeText(getApplicationContext(), "web service 1111", Toast.LENGTH_LONG).show();}
         } else if (flag.equals("2")) {
 
-            String url = "http://" + url_lh + "/proyecto_dconfo_v1/8_5wsJSONConsultarListaDeberesEst_nota.php?estudiante_idestudiante=";
+            String url = "http://" + url_lh + "/proyecto_dconfo_v1/2_1wsJSONConsultarEjercicio_X_Id.php?iddocente=" + iddocente + "&idejercicio=" + idEjercicio;
 
             url = url.replace(" ", "%20");
             //hace el llamado a la url
@@ -237,9 +259,11 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
                     deberEstudiante.setIdEstHasDeber(jsonObject.optInt("id_estudiante_has_Debercol"));
                     deberEstudiante.setIdAsignacion(jsonObject.optInt("Asignacion_idGrupoAsignacion"));
                     deberEstudiante.setIdGrupoHdeber(jsonObject.optInt("grupo_estudiante_has_deber_id_GE_H_D"));
+
                     listaDeberes_full.add(deberEstudiante);
                     lista_notas.add(deberEstudiante.getIdCalificacion());
-                    //lista_idEstudiante.add(deberEstudiante.getIdEstudiante());
+                    lista_idEjercicios.add(deberEstudiante.getIdEjercicio2());
+                    lista_idEstudiante.add(deberEstudiante.getIdEstudiante());
 
                 }
                 //Toast.makeText(getApplicationContext(), "listagrupos: " + listaGrupos.size(), Toast.LENGTH_LONG).show();
@@ -263,35 +287,120 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
                 progreso.hide();
             }
             verificaEjeHechos();
+            creaListaNoRepetidos();
+            buscarEjercicio();
 
             for (int i = 0; i < listaDeberes_full.size(); i++) {
                 // System.out.println("Lista listaDeberes_full show: i=" + (i + 1) + " - Find - " + listaDeberes_full.get(i).getIdCalificacion());
             }
-            // for (int i = 0; i < lista_notas.size(); i++) {
-            System.out.println("lista_notas size: " + lista_notas.size());
-            //}
+            for (int i = 0; i < lista_notas.size(); i++) {
+                System.out.println("lista_notas : " + lista_notas.get(i));
+            }
+            for (int i = 0; i < lista_idEjercicios.size(); i++) {
+                System.out.println("lista_idEjercicios: " + lista_idEjercicios.get(i));
+            }
+
+            //System.out.println("lista_idEjercicios size: " + lista_idEjercicios.size());
+
         }//flag="1"
+        else if (flag.equals("2")) {
+            //Toast.makeText(getApplicationContext(), "Mensaje: " + response.toString(), Toast.LENGTH_SHORT).show();
+            // DeberEstudiante deberEstudiante = null;
+            System.out.println("***********flag2: ");
+            JSONArray json = response.optJSONArray("ejerciciog2");
+            bandera++;
+            EjercicioG2 ejercicioG2 = null;
+
+
+            try {
+                // JSONArray json = response.optJSONArray("ejerciciog2");
+                for (int i = 0; i < json.length(); i++) {
+                    ejercicioG2 = new EjercicioG2();
+                    JSONObject jsonObject = null;
+                    jsonObject = json.getJSONObject(i);
+                    ejercicioG2.setIdEjercicioG2(jsonObject.optInt("idEjercicioG2"));
+                    ejercicioG2.setNameEjercicioG2(jsonObject.optString("nameEjercicioG2"));
+                    ejercicioG2.setIdDocente(jsonObject.optInt("docente_iddocente"));
+                    ejercicioG2.setIdTipo(jsonObject.optInt("Tipo_idTipo"));
+                    ejercicioG2.setIdActividad(jsonObject.optInt("Tipo_Actividad_idActividad"));
+
+                    listaEjercicios.add(ejercicioG2);
+                }
+
+
+              /*  listaStringEjercicios.add("Seleccione Id Ejercicio");
+                for (int i = 0; i < listaEjercicios.size(); i++) {
+                    listaStringEjercicios.add(listaEjercicios.get(i).getIdEjercicioG2().toString());
+                }*/
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d("error f2", response.toString());
+
+                Toast.makeText(getContext(), "No se ha podido establecer conexión: " + response.toString(), Toast.LENGTH_LONG).show();
+
+                progreso.hide();
+            }
+
+            buscarEjercicio();
+
+            for (int i = 0; i < listaEjercicios.size(); i++) {
+                System.out.println("***********listaEjercicios: " + listaEjercicios.get(i).getNameEjercicioG2());
+            }
+
+
+        }//flag 2
 
 
     }//********************************************
 
+    private void buscarEjercicio() {
+        if (bandera < lista_idEjercicioNRepetido.size()) {
+            idEjercicio = lista_idEjercicioNRepetido.get(bandera);
+            System.out.println("idEjercicio////////// : " + idEjercicio);
+            flag = "2";
+            cargarWebService();
+        }
+    }
+
+    private void creaListaNoRepetidos() {
+
+        int rep = 0;
+        for (int i = 0; i < lista_idEjercicios.size(); i++) {
+            lista_idEjercicioNRepetido.add(lista_idEjercicios.get(i));
+        }
+        Set<Integer> hs = new HashSet<>();
+        hs.addAll(lista_idEjercicioNRepetido);
+        lista_idEjercicioNRepetido.clear();
+        lista_idEjercicioNRepetido.addAll(hs);
+
+        for (int i = 0; i < lista_idEjercicioNRepetido.size(); i++) {
+            System.out.println("lista_idEjercicioNRepetido : " + lista_idEjercicioNRepetido.get(i));
+        }
+
+    }
+
     private void verificaEjeHechos() {
         int sum = 0;
+        int sumNotas = 0;
         for (int i = 0; i < lista_notas.size(); i++) {
             if (lista_notas.get(i) != 0) {
                 sum++;
+                sumNotas += lista_notas.get(i);
                 System.out.println("lista_notas: " + lista_notas.get(i));
 
             }
 
         }
-       // if (i == lista_notas.size()) {
-            porcentajeHechos = (sum * 100) / lista_notas.size();
-            txt_porcentajeHechos.setText(String.valueOf(porcentajeHechos));
-            System.out.println("porcentajeHechos: " + porcentajeHechos);
+        // if (i == lista_notas.size()) {
+        porcentajeHechos = (sum * 100) / lista_notas.size();
+        califPromedio = sumNotas / sum;
+
+        txt_porcentajeHechos.setText(String.valueOf(porcentajeHechos));
+        txt_califPromedio.setText(String.valueOf(califPromedio));
+
+        System.out.println("porcentajeHechos: " + porcentajeHechos);
         //}
-
-
     }
 
 

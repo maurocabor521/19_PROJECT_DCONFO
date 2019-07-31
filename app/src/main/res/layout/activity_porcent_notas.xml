@@ -12,25 +12,42 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Global de Calificaciones"
         android:gravity="center"
-        android:textStyle="bold"/>
+        android:text="Global de Calificaciones"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txt_nameEst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txt_nameEst"
-        android:gravity="center"
-        android:textStyle="bold"
         android:background="@color/orange"
+        android:gravity="center"
+        android:text="Nombre Estudiante"
         android:textSize="20dp"
-        android:text="Nombre Estudiante"/>
+        android:textStyle="bold" />
 
-    <com.github.mikephil.charting.charts.PieChart
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/piechart"/>
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 
 </LinearLayout>
