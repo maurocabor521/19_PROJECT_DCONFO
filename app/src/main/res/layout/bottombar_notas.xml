@@ -9,4 +9,5 @@
     android:visibility="visible"
     app:bb_activeTabColor="@android:color/white"
     app:bb_inActiveTabColor="@android:color/white"
+    android:background="@color/colorAccent"
     app:bb_tabXmlResource="@xml/bottombar_tabs_notas" />

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,7 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
 
     private String flag;
     RecyclerView rv_datosEstudiante;
+    RecyclerView rv_ejercicios;
     FloatingActionButton fl_back;
     FindNotasXGrupoEstFragment findNotasXGrupoEstFragment;
 
@@ -93,6 +95,9 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
     int bandera = 0;
     TextView txt_porcentajeHechos;
     TextView txt_califPromedio;
+
+    Button btn_Todas;
+    Button btn_Ejercicios;
 
     private OnFragmentInteractionListener mListener;
 
@@ -143,6 +148,33 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
         txt_porcentajeHechos = view.findViewById(R.id.txt_show_porc_eje_hechos);
         txt_califPromedio = view.findViewById(R.id.txt_show_porc_calif_prom);
 
+        rv_datosEstudiante = (RecyclerView) view.findViewById(R.id.rv_notasGrupoEstHasDeber);
+        rv_datosEstudiante.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_datosEstudiante.setHasFixedSize(true);
+
+        rv_datosEstudiante.setVisibility(View.GONE);
+
+        rv_ejercicios = (RecyclerView) view.findViewById(R.id.rv_notasGrupoEjercicios);
+        rv_ejercicios.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_ejercicios.setHasFixedSize(true);
+
+
+
+        btn_Todas = view.findViewById(R.id.btn_showAllGrades);
+        btn_Todas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rv_datosEstudiante.setVisibility(View.VISIBLE);
+            }
+        });
+        btn_Ejercicios = view.findViewById(R.id.btn_showPerEjercicio);
+        btn_Ejercicios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         progreso = new ProgressDialog(getActivity());
         iddocente = getArguments().getInt("iddocente");
         idgrupo = getArguments().getInt("idgrupo");
@@ -168,9 +200,7 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
                         .addToBackStack(null).commit();
             }
         });
-        rv_datosEstudiante = (RecyclerView) view.findViewById(R.id.rv_notasGrupoEstHasDeber);
-        rv_datosEstudiante.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rv_datosEstudiante.setHasFixedSize(true);
+
 
         flag = "1";
         cargarWebService();

@@ -83,13 +83,13 @@ public class NotasDeberesEstudianteAdapter extends RecyclerView.Adapter<NotasDeb
         }
 
         if (!(listaDeberes.get(position).getIdAsignacion().equals(0))) {
-            int c = holder.ll_show.getResources().getColor(R.color.orange);
+            int c = holder.ll_show.getResources().getColor(R.color.graylight);
             holder.ll_show.setBackgroundColor(c);
             Drawable drawable = holder.ll_show.getResources().getDrawable(R.drawable.letra_a);
             holder.imageView.setBackground(drawable);
         }
         if (listaDeberes.get(position).getIdAsignacion().equals(0) && listaDeberes.get(position).getIdGrupoHdeber().equals(0) ) {
-            int c = holder.ll_show.getResources().getColor(R.color.green);
+            int c = holder.ll_show.getResources().getColor(R.color.colorPrimary);
             holder.ll_show.setBackgroundColor(c);
             Drawable drawable = holder.ll_show.getResources().getDrawable(R.drawable.letra_l);
             holder.imageView.setBackground(drawable);

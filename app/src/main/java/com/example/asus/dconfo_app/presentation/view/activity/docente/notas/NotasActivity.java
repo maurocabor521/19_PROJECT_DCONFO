@@ -148,7 +148,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                 switch (tabId) {
                     case R.id.btn_home_notas:
 
-
+                        btn_verporcentaje.setVisibility(View.VISIBLE);
                         rv_docente_notas.setVisibility(View.VISIBLE);
                         Toast.makeText(getApplicationContext(), "Notas Home", Toast.LENGTH_LONG).show();
                         break;
@@ -156,6 +156,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                     case R.id.btn_estudiante:
                         Toast.makeText(getApplicationContext(), "Notas X Estudiante", Toast.LENGTH_LONG).show();
                         rv_docente_notas.setVisibility(View.GONE);
+                        btn_verporcentaje.setVisibility(View.GONE);
 
                         Bundle args1 = new Bundle();
 
@@ -173,7 +174,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                     case R.id.btn_grupos:
                         Toast.makeText(getApplicationContext(), "Notas X Estudiante", Toast.LENGTH_LONG).show();
                         rv_docente_notas.setVisibility(View.GONE);
-
+                        btn_verporcentaje.setVisibility(View.GONE);
                         Bundle args2 = new Bundle();
 
                         args2.putInt("iddocente", iddocente);

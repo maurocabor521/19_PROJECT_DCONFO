@@ -54,6 +54,30 @@
             android:id="@+id/txt_show_porc_calif_prom"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginTop="@dimen/tsize_5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_showAllGrades"
+            android:text="Todas Calificaciones"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textColor="@color/editTextColorWhite"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_showPerEjercicio"
+            android:text="X Ejercicios"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textColor="@color/editTextColorWhite"/>
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,6 +94,12 @@
             android:id="@+id/rv_notasGrupoEstHasDeber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_notasGrupoEjercicios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"></android.support.v7.widget.RecyclerView>
 
 
     </FrameLayout>
