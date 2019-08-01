@@ -19,19 +19,21 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="% Ejercicios Hechos"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="% Ejercicios Hechos"
-            android:gravity="center"
             android:layout_weight="1"
-            android:id="@+id/txt_show_porc_eje_hechos"/>
+            android:gravity="center"
+            android:text="% Ejercicios Hechos" />
+
+        <TextView
+            android:id="@+id/txt_show_porc_eje_hechos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="% Ejercicios Hechos" />
     </LinearLayout>
 
     <LinearLayout
@@ -39,43 +41,73 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calificación Promedio"
-            android:gravity="center"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Calificación Promedio"
-            android:gravity="center"
             android:layout_weight="1"
-            android:id="@+id/txt_show_porc_calif_prom"/>
+            android:gravity="center"
+            android:text="Calificación Promedio" />
+
+        <TextView
+            android:id="@+id/txt_show_porc_calif_prom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="Calificación Promedio" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/tsize_5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tsize_5dp"
         android:orientation="horizontal">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_showAllGrades"
-            android:text="Todas Calificaciones"
-            android:background="@color/colorPrimary"
-            android:layout_weight="1"
-            android:textColor="@color/editTextColorWhite"/>
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_showPerEjercicio"
-            android:text="X Ejercicios"
-            android:background="@color/colorPrimary"
+            android:layout_marginTop="@dimen/tsize_5dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_showAllGrades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="Todas Calificaciones"
+                android:textColor="@color/editTextColorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tsize_5dp"
             android:layout_weight="1"
-            android:textColor="@color/editTextColorWhite"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_showPerEjercicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="X Ejercicios"
+                android:textColor="@color/editTextColorWhite" />
+
+            <Button
+                android:id="@+id/btn_showPorcentajeNotas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/orange"
+                android:text="%"
+                android:visibility="gone"
+                android:textColor="@color/editTextColorWhite" />
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout

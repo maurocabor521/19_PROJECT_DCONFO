@@ -25,11 +25,13 @@ public class PorcentNotasActivity extends AppCompatActivity {
     PieDataSet pieDataSet;
     PieData pieData;
 
-    BarChart chart ;
-    ArrayList<BarEntry> BARENTRY ;
-    ArrayList<String> BarEntryLabels ;
-    BarDataSet Bardataset ;
-    BarData BARDATA ;
+    BarChart chart;
+    ArrayList<BarEntry> BARENTRY;
+    ArrayList<String> BarEntryLabels;
+    ArrayList<String> lista_idEstudiante;
+    ArrayList<Integer> lista_Calif_Ejercicio;
+    BarDataSet Bardataset;
+    BarData BARDATA;
 
     int fonico;
     int lexico;
@@ -48,7 +50,20 @@ public class PorcentNotasActivity extends AppCompatActivity {
         silabico = datos.getInt("silabico");
         nameEst = datos.getString("nameEst");
 
+       /* lista_idEstudiante=null;
+        lista_Calif_Ejercicio=null;*/
+
+        lista_idEstudiante = datos.getStringArrayList("list");
+        lista_Calif_Ejercicio = datos.getIntegerArrayList("listCalificacion");
+
         System.out.println("nameEst: " + nameEst);
+
+        if (!(lista_idEstudiante==null)) {
+            for (int i = 0; i < lista_idEstudiante.size(); i++) {
+                System.out.println("lista_idEstudiante : " + lista_idEstudiante.get(i));
+            }
+        }
+//        System.out.println("lista_idEstudiante: " + lista_idEstudiante.size());
 
         txt_nameEst = (TextView) findViewById(R.id.txt_nameEst);
         txt_nameEst.setText(nameEst);
@@ -98,39 +113,53 @@ public class PorcentNotasActivity extends AppCompatActivity {
     }
 
     public void AddValuesToPIEENTRY() {
-        if ((fonico != 0) && (lexico != 0) && (silabico != 0)) {
-            entries.add(new BarEntry(fonico, 0));
-            entries.add(new BarEntry(lexico, 1));
-            entries.add(new BarEntry(silabico, 2));
-        }
-        if ((fonico != 0) && (lexico != 0) && (silabico == 0)) {
-            entries.add(new BarEntry(fonico, 0));
-            entries.add(new BarEntry(lexico, 1));
-        }
-        if ((fonico != 0) && (lexico == 0) && (silabico != 0)) {
-            entries.add(new BarEntry(fonico, 0));
-            entries.add(new BarEntry(silabico, 1));
-        }
-        if ((fonico == 0) && (lexico != 0) && (silabico != 0)) {
-            entries.add(new BarEntry(lexico, 0));
-            entries.add(new BarEntry(silabico, 1));
-        }
-        if ((fonico != 0) && (lexico == 0) && (silabico == 0)) {
-            entries.add(new BarEntry(fonico, 0));
-        }
-        if ((fonico == 0) && (lexico != 0) && (silabico == 0)) {
-            entries.add(new BarEntry(lexico, 0));
-        }
-        if ((fonico == 0) && (lexico == 0) && (silabico != 0)) {
-            entries.add(new BarEntry(silabico, 0));
+        if (!(lista_idEstudiante==null) && !(lista_idEstudiante.size()==0) ) {
+            for (int i = 0; i < lista_idEstudiante.size(); i++) {
+                entries.add(new BarEntry(lista_Calif_Ejercicio.get(i),i));
+            }
+
+        } else {
+            if ((fonico != 0) && (lexico != 0) && (silabico != 0)) {
+                entries.add(new BarEntry(fonico, 0));
+                entries.add(new BarEntry(lexico, 1));
+                entries.add(new BarEntry(silabico, 2));
+            }
+            if ((fonico != 0) && (lexico != 0) && (silabico == 0)) {
+                entries.add(new BarEntry(fonico, 0));
+                entries.add(new BarEntry(lexico, 1));
+            }
+            if ((fonico != 0) && (lexico == 0) && (silabico != 0)) {
+                entries.add(new BarEntry(fonico, 0));
+                entries.add(new BarEntry(silabico, 1));
+            }
+            if ((fonico == 0) && (lexico != 0) && (silabico != 0)) {
+                entries.add(new BarEntry(lexico, 0));
+                entries.add(new BarEntry(silabico, 1));
+            }
+            if ((fonico != 0) && (lexico == 0) && (silabico == 0)) {
+                entries.add(new BarEntry(fonico, 0));
+            }
+            if ((fonico == 0) && (lexico != 0) && (silabico == 0)) {
+                entries.add(new BarEntry(lexico, 0));
+            }
+            if ((fonico == 0) && (lexico == 0) && (silabico != 0)) {
+                entries.add(new BarEntry(silabico, 0));
+            }
         }
     }
 
     public void AddValuesToPieEntryLabels() {
 
-        PieEntryLabels.add("Fónica");
-        PieEntryLabels.add("Léxica");
-        PieEntryLabels.add("Silábica");
+        if (!(lista_idEstudiante==null)&& !(lista_idEstudiante.size()==0)) {
+            for (int i = 0; i < lista_idEstudiante.size(); i++) {
+                PieEntryLabels.add(lista_idEstudiante.get(i));
+            }
+        } else {
+
+            PieEntryLabels.add("Fónica");
+            PieEntryLabels.add("Léxica");
+            PieEntryLabels.add("Silábica");
+        }
 
     }
 
@@ -144,42 +173,58 @@ public class PorcentNotasActivity extends AppCompatActivity {
     }
 
     //**********************************************************************************************
-    public void AddValuesToBARENTRY(){
+    public void AddValuesToBARENTRY() {
 
-        if ((fonico != 0) && (lexico != 0) && (silabico != 0)) {
-            BARENTRY.add(new BarEntry(fonico, 0));
-            BARENTRY.add(new BarEntry(lexico, 1));
-            BARENTRY.add(new BarEntry(silabico, 2));
-        }
-        if ((fonico != 0) && (lexico != 0) && (silabico == 0)) {
-            BARENTRY.add(new BarEntry(fonico, 0));
-            BARENTRY.add(new BarEntry(lexico, 1));
-        }
-        if ((fonico != 0) && (lexico == 0) && (silabico != 0)) {
-            BARENTRY.add(new BarEntry(fonico, 0));
-            BARENTRY.add(new BarEntry(silabico, 1));
-        }
-        if ((fonico == 0) && (lexico != 0) && (silabico != 0)) {
-            BARENTRY.add(new BarEntry(lexico, 0));
-            BARENTRY.add(new BarEntry(silabico, 1));
-        }
-        if ((fonico != 0) && (lexico == 0) && (silabico == 0)) {
-            BARENTRY.add(new BarEntry(fonico, 0));
-        }
-        if ((fonico == 0) && (lexico != 0) && (silabico == 0)) {
-            BARENTRY.add(new BarEntry(lexico, 0));
-        }
-        if ((fonico == 0) && (lexico == 0) && (silabico != 0)) {
-            BARENTRY.add(new BarEntry(silabico, 0));
+        if (!(lista_idEstudiante==null)&& !(lista_idEstudiante.size()==0)) {
+            for (int i = 0; i < lista_idEstudiante.size(); i++) {
+                BARENTRY.add(new BarEntry(lista_Calif_Ejercicio.get(i),i));
+            }
+
+        } else {
+
+            if ((fonico != 0) && (lexico != 0) && (silabico != 0)) {
+                BARENTRY.add(new BarEntry(fonico, 0));
+                BARENTRY.add(new BarEntry(lexico, 1));
+                BARENTRY.add(new BarEntry(silabico, 2));
+            }
+            if ((fonico != 0) && (lexico != 0) && (silabico == 0)) {
+                BARENTRY.add(new BarEntry(fonico, 0));
+                BARENTRY.add(new BarEntry(lexico, 1));
+            }
+            if ((fonico != 0) && (lexico == 0) && (silabico != 0)) {
+                BARENTRY.add(new BarEntry(fonico, 0));
+                BARENTRY.add(new BarEntry(silabico, 1));
+            }
+            if ((fonico == 0) && (lexico != 0) && (silabico != 0)) {
+                BARENTRY.add(new BarEntry(lexico, 0));
+                BARENTRY.add(new BarEntry(silabico, 1));
+            }
+            if ((fonico != 0) && (lexico == 0) && (silabico == 0)) {
+                BARENTRY.add(new BarEntry(fonico, 0));
+            }
+            if ((fonico == 0) && (lexico != 0) && (silabico == 0)) {
+                BARENTRY.add(new BarEntry(lexico, 0));
+            }
+            if ((fonico == 0) && (lexico == 0) && (silabico != 0)) {
+                BARENTRY.add(new BarEntry(silabico, 0));
+            }
         }
 
     }
 
-    public void AddValuesToBarEntryLabels(){
+    public void AddValuesToBarEntryLabels() {
 
-        BarEntryLabels.add("Fónica");
-        BarEntryLabels.add("Léxica");
-        BarEntryLabels.add("Silábica");
+        if (!(lista_idEstudiante==null)&& !(lista_idEstudiante.size()==0)) {
+            for (int i = 0; i < lista_idEstudiante.size(); i++) {
+                BarEntryLabels.add(lista_idEstudiante.get(i));
+            }
+        } else {
+
+            BarEntryLabels.add("Fónica");
+            BarEntryLabels.add("Léxica");
+            BarEntryLabels.add("Silábica");
+        }
+
 
     }
 

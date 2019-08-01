@@ -114,6 +114,8 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                 bundle.putInt("silabico", NDS);
                 bundle.putString("nameEst", nameEst);
                 System.out.println("nameEst_: " + nameEst);
+                bundle.putStringArrayList("list", null);
+                bundle.putIntegerArrayList("listCalificacion", null);
                 Intent intent = new Intent(NotasActivity.this, PorcentNotasActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

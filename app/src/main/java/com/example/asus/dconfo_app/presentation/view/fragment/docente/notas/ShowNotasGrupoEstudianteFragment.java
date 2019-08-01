@@ -2,6 +2,7 @@ package com.example.asus.dconfo_app.presentation.view.fragment.docente.notas;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,7 +32,10 @@ import com.example.asus.dconfo_app.domain.model.EjercicioG2;
 import com.example.asus.dconfo_app.domain.model.Estudiante;
 import com.example.asus.dconfo_app.domain.model.VolleySingleton;
 import com.example.asus.dconfo_app.helpers.Globals;
+import com.example.asus.dconfo_app.presentation.view.activity.docente.notas.NotasActivity;
+import com.example.asus.dconfo_app.presentation.view.activity.docente.notas.PorcentNotasActivity;
 import com.example.asus.dconfo_app.presentation.view.adapter.NotasDeberesEstudianteAdapter;
+import com.example.asus.dconfo_app.presentation.view.adapter.TipoEjerciciosDocente_EjerG2Adapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,17 +91,31 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
     ArrayList<Integer> lista_Calificaciones;
     ArrayList<Integer> lista_idEstudiante;
     ArrayList<Integer> lista_idEjercicioNRepetido;
+    ArrayList<Integer> lista_idEstudiantesNRepetido;
+    ArrayList<String> lista_String_idEstNRepetido;
+    ArrayList<Integer> lista_int_Ejercicio_Calificacion;
     ArrayList<EjercicioG2> listaEjercicios;
+    ArrayList<Integer> lisnotaprov;
 
     int porcentajeHechos;
     int califPromedio;
     int idEjercicio;
+    int ID_Ejercicio;
     int bandera = 0;
     TextView txt_porcentajeHechos;
     TextView txt_califPromedio;
 
     Button btn_Todas;
     Button btn_Ejercicios;
+    Button btn_verPorcentajeEstudiante;
+
+    int NDF = 0;
+    int NDL = 0;
+    int NDS = 0;
+    int SUMNDF = 0;
+    int SUMNDL = 0;
+    int SUMNDS = 0;
+    String nameEst;
 
     private OnFragmentInteractionListener mListener;
 
@@ -143,7 +161,11 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
         lista_Calificaciones = new ArrayList<>();
         lista_idEstudiante = new ArrayList<>();
         lista_idEjercicioNRepetido = new ArrayList<>();
+        lista_idEstudiantesNRepetido = new ArrayList<>();
+        lista_String_idEstNRepetido = new ArrayList<>();
+        lista_int_Ejercicio_Calificacion = new ArrayList<>();
         listaEjercicios = new ArrayList<>();
+        lisnotaprov = new ArrayList<>();
 
         txt_porcentajeHechos = view.findViewById(R.id.txt_show_porc_eje_hechos);
         txt_califPromedio = view.findViewById(R.id.txt_show_porc_calif_prom);
@@ -159,18 +181,30 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
         rv_ejercicios.setHasFixedSize(true);
 
 
-
         btn_Todas = view.findViewById(R.id.btn_showAllGrades);
         btn_Todas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rv_datosEstudiante.setVisibility(View.VISIBLE);
+                rv_ejercicios.setVisibility(View.INVISIBLE);
             }
         });
         btn_Ejercicios = view.findViewById(R.id.btn_showPerEjercicio);
         btn_Ejercicios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rv_datosEstudiante.setVisibility(View.INVISIBLE);
+                rv_ejercicios.setVisibility(View.VISIBLE);
+
+            }
+        });
+        btn_verPorcentajeEstudiante = view.findViewById(R.id.btn_showPorcentajeNotas);
+        btn_verPorcentajeEstudiante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* lista_int_Ejercicio_Calificacion.add(3);
+                lista_int_Ejercicio_Calificacion.add(5);*/
+                llamarPorcentaje();
 
             }
         });
@@ -205,6 +239,31 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
         flag = "1";
         cargarWebService();
         return view;
+    }
+
+    private void llamarPorcentaje() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("fonico", NDF);
+        bundle.putInt("lexico", NDL);
+        bundle.putInt("silabico", NDS);
+        bundle.putString("nameEst", nameEst);
+        bundle.putStringArrayList("list", lista_String_idEstNRepetido);
+        // bundle.putIntegerArrayList("listCalificacion", lista_int_Ejercicio_Calificacion);
+        bundle.putIntegerArrayList("listCalificacion", lisnotaprov);
+
+        for (int i = 0; i < lista_String_idEstNRepetido.size(); i++) {
+            System.out.println("lista_String_idEstNRepetido **********: " + lista_String_idEstNRepetido.get(i));
+        }
+
+        for (int i = 0; i < lisnotaprov.size(); i++) {
+            System.out.println("listCalificacion **********: " + lisnotaprov.get(i));
+        }
+
+        System.out.println("nameEst_**********: " + nameEst);
+        System.out.println("lisnotaprov**********: " + lisnotaprov.size());
+        Intent intent = new Intent(getActivity(), PorcentNotasActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void cargarWebService() {
@@ -318,6 +377,7 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
             }
             verificaEjeHechos();
             creaListaNoRepetidos();
+            creaListaNoRepetidosEstudiantes();
             buscarEjercicio();
 
             for (int i = 0; i < listaDeberes_full.size(); i++) {
@@ -339,6 +399,7 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
             System.out.println("***********flag2: ");
             JSONArray json = response.optJSONArray("ejerciciog2");
             bandera++;
+            //
             EjercicioG2 ejercicioG2 = null;
 
 
@@ -356,6 +417,19 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
 
                     listaEjercicios.add(ejercicioG2);
                 }
+
+                TipoEjerciciosDocente_EjerG2Adapter tipoEjerciciosDocente_ejerG2Adapter = new TipoEjerciciosDocente_EjerG2Adapter(listaEjercicios);
+
+                tipoEjerciciosDocente_ejerG2Adapter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ID_Ejercicio = listaEjercicios.get(rv_ejercicios.getChildAdapterPosition(view)).getIdEjercicioG2();
+                        Toast.makeText(getContext(), "ID_Ejercicio: " + ID_Ejercicio, Toast.LENGTH_LONG).show();
+                        calculaNotaAct();
+                        llamarPorcentaje();
+                    }
+                });
+                rv_ejercicios.setAdapter(tipoEjerciciosDocente_ejerG2Adapter);
 
 
               /*  listaStringEjercicios.add("Seleccione Id Ejercicio");
@@ -390,8 +464,54 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
             System.out.println("idEjercicio////////// : " + idEjercicio);
             flag = "2";
             cargarWebService();
+        } else {
+            //calculaNotaAct();
         }
     }
+
+    private void calculaNotaAct() {
+        //Toast.makeText(getContext(), "calculaNotaAct: " + ID_Ejercicio, Toast.LENGTH_LONG).show();
+        lisnotaprov.clear();
+
+        int sum_nota = 0;
+        for (int i = 0; i < listaDeberes_full.size(); i++) {
+            //  for (int k = 0; k < lista_idEstudiantesNRepetido.size(); k++) {
+
+            if (listaDeberes_full.get(i).getIdEjercicio2() == ID_Ejercicio) {
+
+               // for (int k = 0; k < lista_idEstudiantesNRepetido.size(); k++) {
+
+                  //  if (lista_idEstudiantesNRepetido.get(k) == listaDeberes_full.get(i).getIdEstudiante()) {
+
+                        lisnotaprov.add(listaDeberes_full.get(i).getIdCalificacion());
+                        System.out.println("================lisnotaprov : ");
+                   // }
+               // }
+                sum_nota++;
+            }
+            // }
+
+        }
+        System.out.println("================SI : " + sum_nota);
+        System.out.println("================SALE : " + ID_Ejercicio);
+        for (int i = 0; i < lisnotaprov.size(); i++) {
+            System.out.println("================lisnotaprov : " + lisnotaprov.get(i));
+        }
+
+    }
+   /* private void calculaNotaAct() {
+        int sum_nota = 0;
+        for (int i = 0; i < listaDeberes_full.size(); i++) {
+            for (int k = 0; k < lista_idEjercicioNRepetido.size(); k++) {
+                if (lista_idEjercicioNRepetido.get(k) == listaDeberes_full.get(i).getIdEjercicio2()) {
+                    lisnotaprov.add(listaDeberes_full.get(i).getIdCalificacion());
+                    System.out.println("lisnotaprov : "+lista_idEjercicioNRepetido.get(k)+" - " + lisnotaprov.get(i));
+                }
+            }
+
+        }
+    }*/
+
 
     private void creaListaNoRepetidos() {
 
@@ -406,6 +526,31 @@ public class ShowNotasGrupoEstudianteFragment extends Fragment implements Respon
 
         for (int i = 0; i < lista_idEjercicioNRepetido.size(); i++) {
             System.out.println("lista_idEjercicioNRepetido : " + lista_idEjercicioNRepetido.get(i));
+        }
+
+
+    }
+
+    private void creaListaNoRepetidosEstudiantes() {
+
+        int rep = 0;
+        for (int i = 0; i < lista_idEstudiante.size(); i++) {
+            lista_idEstudiantesNRepetido.add(lista_idEstudiante.get(i));
+        }
+        Set<Integer> hs = new HashSet<>();
+        hs.addAll(lista_idEstudiantesNRepetido);
+        lista_idEstudiantesNRepetido.clear();
+        lista_idEstudiantesNRepetido.addAll(hs);
+
+        btn_verPorcentajeEstudiante.setVisibility(View.VISIBLE);
+
+        for (int i = 0; i < lista_idEstudiantesNRepetido.size(); i++) {
+            // System.out.println("lista_idEstudiantesNRepetido : " + lista_idEstudiantesNRepetido.get(i));
+        }
+
+        for (int i = 0; i < lista_idEstudiantesNRepetido.size(); i++) {
+            lista_String_idEstNRepetido.add(String.valueOf(lista_idEstudiantesNRepetido.get(i)));
+            System.out.println("lista_String_idEstNRepetido : " + lista_String_idEstNRepetido.get(i));
         }
 
     }
