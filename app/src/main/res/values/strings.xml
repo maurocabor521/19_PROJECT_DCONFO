@@ -64,4 +64,6 @@
     <string name="FechaGEHD">Fecha Asignación</string>
     <string name="idGrupoEstHasDeber">idGEhD</string>
     <string name="Notas_GrupoEstudiante">Notas Grupo Estudiante</string>
+    <string name="nav_header_title_1">DCONFO</string>
+    <string name="nav_header_subtitle_">andres.cabal@dconfo.edu.co</string>
 </resources>

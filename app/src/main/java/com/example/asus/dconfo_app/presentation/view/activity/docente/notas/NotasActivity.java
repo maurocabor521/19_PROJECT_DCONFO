@@ -190,6 +190,24 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                                 .addToBackStack(null).commit();
 
                         break;
+
+                        case R.id.btn_tipoAsignacion:
+                        //Toast.makeText(getApplicationContext(), "Notas X Estudiante", Toast.LENGTH_LONG).show();
+                        rv_docente_notas.setVisibility(View.GONE);
+                        btn_verporcentaje.setVisibility(View.GONE);
+                        Bundle args3 = new Bundle();
+
+                        args3.putInt("iddocente", iddocente);
+                        args3.putInt("idgrupo", idgrupo);
+
+                        fnXgrupo = new FindNotasXGrupoEstFragment();
+                        fnXgrupo.setArguments(args3);
+
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fl_contenedor_notas, fnXgrupo)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack(null).commit();
+
+                        break;
                 }
 
             }

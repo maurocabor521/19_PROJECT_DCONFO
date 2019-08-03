@@ -25,14 +25,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/idGrupo"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/tsize_documento"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/txtIDgrupo_LCD"
@@ -53,14 +46,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/NombreGrupo"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/tsize_documento"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/txtNombreGrupo_LCD"
@@ -82,14 +68,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/idGrupoCurso"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/tsize_documento"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/txtID_Curso_LCD"
@@ -110,14 +89,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="@string/IDinstituto_CL"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/tsize_documento"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/txtInstituto_LCD"

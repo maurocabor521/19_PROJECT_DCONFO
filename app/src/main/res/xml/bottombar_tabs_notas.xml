@@ -12,8 +12,8 @@
         title="X Grupos"
         barColorWhenSelected="@color/colorPrimary"
         icon="@drawable/ic_square_30dp"/>
-    <tab id="@+id/btn_otros"
-        title="vacio"
+    <tab id="@+id/btn_tipoAsignacion"
+        title="X Tipo"
         barColorWhenSelected="@color/colorPrimary"
         icon="@drawable/ic_square_30dp"/>
 </tabs>

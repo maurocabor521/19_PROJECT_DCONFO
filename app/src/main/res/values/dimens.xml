@@ -27,4 +27,5 @@
     <dimen name="tsize_35dp">35dp</dimen>
     <dimen name="tsize_5dp">5dp</dimen>
     <dimen name="tsize_documento_idgrupo">25dp</dimen>
+    <dimen name="nav_header_height_1">250dp</dimen>
 </resources>
