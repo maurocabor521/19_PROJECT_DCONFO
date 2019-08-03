@@ -29,6 +29,7 @@ import com.example.asus.dconfo_app.presentation.view.adapter.Grupos_Estudiante_D
 import com.example.asus.dconfo_app.presentation.view.adapter.NotasDeberesEstudianteAdapter;
 import com.example.asus.dconfo_app.presentation.view.fragment.docente.notas.FindNotasXEstudianteFragment;
 import com.example.asus.dconfo_app.presentation.view.fragment.docente.notas.FindNotasXGrupoEstFragment;
+import com.example.asus.dconfo_app.presentation.view.fragment.docente.notas.FindNotasXTipoAsigFragment;
 import com.example.asus.dconfo_app.presentation.view.fragment.docente.notas.ShowNotasGrupoEstudianteFragment;
 import com.example.asus.dconfo_app.presentation.view.fragment.docente.tipoFragments.HomeTiposFragment;
 import com.roughike.bottombar.BottomBar;
@@ -45,6 +46,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
         Response.ErrorListener,
         FindNotasXEstudianteFragment.OnFragmentInteractionListener,
         FindNotasXGrupoEstFragment.OnFragmentInteractionListener,
+        FindNotasXTipoAsigFragment.OnFragmentInteractionListener,
         ShowNotasGrupoEstudianteFragment.OnFragmentInteractionListener {
 
     public int iddocente = 0;
@@ -61,6 +63,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
     private BottomBar bottomBar;
     FindNotasXEstudianteFragment fnXest;
     FindNotasXGrupoEstFragment fnXgrupo;
+    FindNotasXTipoAsigFragment fnXtipo;
     String idestudiante = "";
 
     ArrayList<Integer> lista_idEjercicios;
@@ -102,7 +105,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
         listanotaLexico = new ArrayList<>();
         listanotaSilabico = new ArrayList<>();
         lista_String_Actividades = new ArrayList<>();
-        nameEst="Grupo "+idgrupo;
+        nameEst = "Grupo " + idgrupo;
 
         btn_verporcentaje = (Button) findViewById(R.id.btn_notas_porc_todas);
         btn_verporcentaje.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +124,6 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                 startActivity(intent);
             }
         });
-
 
 
         rv_docente_notas = findViewById(R.id.rv_docente_notas);
@@ -191,7 +193,7 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
 
                         break;
 
-                        case R.id.btn_tipoAsignacion:
+                    case R.id.btn_tipoAsignacion:
                         //Toast.makeText(getApplicationContext(), "Notas X Estudiante", Toast.LENGTH_LONG).show();
                         rv_docente_notas.setVisibility(View.GONE);
                         btn_verporcentaje.setVisibility(View.GONE);
@@ -200,10 +202,10 @@ public class NotasActivity extends AppCompatActivity implements Response.Listene
                         args3.putInt("iddocente", iddocente);
                         args3.putInt("idgrupo", idgrupo);
 
-                        fnXgrupo = new FindNotasXGrupoEstFragment();
-                        fnXgrupo.setArguments(args3);
+                        fnXtipo = new FindNotasXTipoAsigFragment();
+                        fnXtipo.setArguments(args3);
 
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fl_contenedor_notas, fnXgrupo)
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fl_contenedor_notas, fnXtipo)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack(null).commit();
 

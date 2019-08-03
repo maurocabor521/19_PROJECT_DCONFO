@@ -66,4 +66,9 @@
     <string name="Notas_GrupoEstudiante">Notas Grupo Estudiante</string>
     <string name="nav_header_title_1">DCONFO</string>
     <string name="nav_header_subtitle_">andres.cabal@dconfo.edu.co</string>
+    <string name="FindNotasXTipoAct">Calificaciones X Tipo Asignación</string>
+    <string name="FindNotasXPrueba">X Prueba</string>
+    <string name="FindNotasXEjercicio">X Ejercicio</string>
+    <string name="FindNotasXEvaluacion">X Evaluación</string>
+    <string name="FindNotasXEjercicio_">X \\ Evaluación</string>
 </resources>
